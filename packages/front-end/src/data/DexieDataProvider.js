@@ -1,0 +1,97 @@
+import {
+  GET_LIST,
+  GET_ONE,
+  GET_MANY,
+  GET_MANY_REFERENCE,
+  CREATE,
+  UPDATE,
+  DELETE,
+  // fetchUtils,
+} from "react-admin";
+import Dexie from "dexie";
+
+export default (databaseName, databaseVersion, databaseStores) => {
+  const db = new Dexie(databaseName);
+  db.version(databaseVersion).stores(databaseStores);
+
+  /**
+   * @param {string} type Request type, e.g GET_LIST
+   * @param {string} resource Resource name, e.g. "posts"
+   * @param {Object} payload Request parameters. Depends on the request type
+   * @returns {Promise} the Promise for response
+   */
+  return (type, resource, params) =>
+    new Promise((resolve, reject) => {
+      db.open();
+
+      switch (type) {
+        case DELETE:
+          db.table(resource)
+            .delete(parseInt(params.id))
+            .then((data) => {
+              resolve({ data });
+            });
+          break;
+
+        case GET_ONE:
+          db.table(resource)
+            .get(parseInt(params.id))
+            .then((data) => {
+              resolve({ data });
+            });
+          break;
+
+        case CREATE:
+          db.table(resource)
+            .add(params.data)
+            .then((id) => {
+              resolve(params);
+            });
+          break;
+
+        case UPDATE:
+          db.table(resource)
+            .update(params.data.id, params.data)
+            .then((updated) => {
+              resolve(params);
+            });
+
+          break;
+
+        case GET_LIST:
+        case GET_MANY:
+        case GET_MANY_REFERENCE:
+          const { page, perPage } = params.pagination;
+          const { field, order } = params.sort;
+
+          const offset = page > 1 ? (page - 1) * perPage : 0;
+
+          db.table(resource).count((count) => {
+            let collection = db.table(resource);
+            collection = collection.orderBy(field);
+
+            if (order.toLowerCase() === "desc") {
+              collection = collection.reverse();
+            }
+
+            collection
+              .offset(offset)
+              .limit(perPage)
+              .toArray()
+              .then((data) => {
+                resolve({
+                  data: data,
+                  total: count,
+                  page: page,
+                  totalCount: count,
+                });
+              });
+          });
+
+          break;
+
+        default:
+          break;
+      }
+    });
+};
