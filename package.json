@@ -19,7 +19,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "hpf": "hpf"
+    "hpf": "hpf",
+    "edit": "hpf serve",
+    "generate": "hpf generate && npm run prettier",
+    "prettier": "prettier --write \"src/*/**/*{.js,.json,.css,.scss,.html}\""
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +43,17 @@
     ]
   },
   "devDependencies": {
-    "@hapify/cli": "^0.9.2"
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
+    "@hapify/cli": "^0.9.2",
+    "husky": "^5.2.0",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
