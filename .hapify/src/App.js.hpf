@@ -1,0 +1,26 @@
+import * as React from "react";
+ 
+import { Admin, Resource } from 'react-admin';
+import dataProvider from "./data/AppDataProvider";
+ 
+<<for Models model>>
+import { <<model pascal>>List, <<model pascal>>Show } from './resources/<<model pascal>>/Read.js';
+import { <<model pascal>>Create, <<model pascal>>Edit } from './resources/<<model pascal>>/Write.js';
+<<endfor>>
+ 
+const App = () => (
+  <Admin dataProvider={dataProvider}>
+<<for Models model>>
+    <Resource
+      name="<<model camel>>"
+      options={{ label: '<<model capital>>' }}
+      list={<<model pascal>>List}
+      create={<<model pascal>>Create}
+      edit={<<model pascal>>Edit}
+      show={<<model pascal>>Show}
+    />
+<<endfor>>
+  </Admin>
+);
+ 
+export default App;

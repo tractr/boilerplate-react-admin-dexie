@@ -1,0 +1,45 @@
+{
+  "version": "2",
+  "validatorPath": ".hapify/validator.js",
+  "project": "hapify-models.json",
+  "name": "React Admin x Dexie",
+  "description": "React Admin using IndexedDB as Database",
+  "logo": "https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png",
+  "defaultFields": [
+    {
+      "name": "Id",
+      "type": "string",
+      "properties": [
+        "primary",
+        "internal"
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "path": "src/App.js",
+      "engine": "hpf",
+      "input": "all"
+    },
+    {
+      "path": "src/data/AppDataProvider.js",
+      "engine": "hpf",
+      "input": "all"
+    },
+    {
+      "path": "src/resources/{pascal}/Filter.js",
+      "engine": "hpf",
+      "input": "one"
+    },
+    {
+      "path": "src/resources/{pascal}/Read.js",
+      "engine": "hpf",
+      "input": "one"
+    },
+    {
+      "path": "src/resources/{pascal}/Write.js",
+      "engine": "hpf",
+      "input": "one"
+    }
+  ]
+}

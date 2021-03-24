@@ -1,0 +1,25 @@
+import dexieDataProvider from './DexieDataProvider';
+ 
+export default dexieDataProvider(
+  'ReactAdmin', 1,
+  {
+<<for Models model>>
+    <<model camel>>: "<<=fieldsList(model)>>",
+<<endfor>>
+  }
+);
+<<<
+function fieldsList(model) {
+  return model.fields.list
+    .map(field => {
+      if (field.primary) return `++${field.names.camel}`;
+      else if (field.sortable || field.searchable || field.type === 'entity') {
+        if (field.unique) return `&${field.names.camel}`;
+        else if (field.multiple) return `*${field.names.camel}`;
+        else return field.names.camel
+      }
+    })
+    .filter(value => !!value)
+    .join(',');
+}
+>>>
