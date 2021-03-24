@@ -4,7 +4,7 @@ This boilerplate is an integration of [React Admin](https://marmelab.com/react-a
 
 Clone this repository and run `npm install`.
 
-## Definition of the data models of your project
+## Data models for your project
 
 To define the data models for your project, run `npm run edit`.
 This will start the Hapify data model management console.
