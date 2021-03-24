@@ -60,6 +60,7 @@ export const <<Model pascal>>Edit = (props) => (
       <NullableBooleanInput
     <<else>>
       <BooleanInput
+        initialValue={false}
     <<endif>>
 <<elseif field number>>
       <NumberInput
